@@ -12,6 +12,8 @@ d3.csv('./gapminder.csv').then((data) => {
         .style('opacity', 0)
         .style('position', 'absolute')
         .style('background', 'white')
+        .style('box-shadow', "5px 0 10px #999999")
+
 
 
     // append svg for graph to body
@@ -24,7 +26,8 @@ d3.csv('./gapminder.csv').then((data) => {
     const tooltipSvg = div.append("svg")
     .attr('width', 220)
     .attr('height', 190)
-    .style('box-shadow', "0 0 5px #999999")
+    .style('margin-left', '10px')
+    .style('margin-top', '20px')
 
     // Creating x and y axes' labels
     svg.append("text")
@@ -75,12 +78,13 @@ d3.csv('./gapminder.csv').then((data) => {
 
     // Line Graph in Tooltips
     // d3's line generator
-    const yearLimits = d3.extent(tooltipData, d => d['year']) 
+    const filterData = tooltipData.filter(d => d['population'] != "NA")
+    const yearLimits = d3.extent(filterData, d => d['year']) 
     const xScaleLine = d3.scaleLinear()
         .domain([yearLimits[0], yearLimits[1]])
         .range([margin.top/3 + 3, (margin.top + (800 - margin.top - margin.bottom))/4])
 
-    const populationLimits = d3.extent(data, d => d['population']) 
+    const populationLimits = d3.extent(filterData, d => d['population']) 
     const yScaleLine = d3.scaleLinear()
         .domain([populationLimits[1], populationLimits[0]])
         .range([margin.top/5, (margin.top + (800 - margin.top - margin.bottom))/5])
@@ -91,7 +95,7 @@ d3.csv('./gapminder.csv').then((data) => {
 
     // append line to svg
     tooltipSvg.append("path")
-        .datum(data)
+        .datum(filterData)
         .attr("d", function(d) { return line(d) })
         .attr("fill", "#154360")
 
