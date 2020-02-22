@@ -1,4 +1,4 @@
-# Fertility vs Life-Expectancy in 1980 Visualization
+# Fertility vs Life Expectancy in 1980 between countries in the world Visualization
 > Phuong Le | Feb 20, 2020 | Seattle, WA
 
 Click [me](https://lekhacminhphuong.github.io/Fertility-LifeExpectancy-Visualization/) to visit visualization
