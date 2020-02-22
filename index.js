@@ -102,19 +102,32 @@ d3.csv('./gapminder.csv').then((data) => {
 
         .on("mouseover", function (e) {
             // Line Graph in Tooltips
+            // filter data
             const currentCountry = e['country']
             const filterData = tooltipData.filter(d => d['population'] != "NA" && d['country'] == currentCountry)
-            console.log(filterData)
-            
-            const yearLimits = d3.extent(filterData, d => d['year'])
-            const xScaleLine = d3.scaleLinear()
-                .domain([yearLimits[0], yearLimits[1]])
-                .range([50, 330])
 
-            const populationLimits = d3.extent(filterData, d => d['population'])
-            const yScaleLine = d3.scaleLinear()
-                .domain([populationLimits[0], populationLimits[1]])
+            // create and append axes to tooltip svg
+            let year = filterData.map((row) => parseInt(row["year"]))
+            let population = filterData.map((row) => parseFloat(row["population"]))
+    
+            const limits = findMinMax(year, population)
+    
+            let xScaleLine = d3.scaleLinear()
+                .domain([limits.yrmin, limits.yrmax])
+                .range([50, 330])
+    
+            let yScaleLine = d3.scaleLinear()
+                .domain([limits.populationMin, limits.populationMax])
                 .range([250, 0])
+
+            function findMinMax(year, population) {
+                return {
+                    yrmin: d3.min(year),
+                    yrmax: d3.max(year),
+                    populationMin: d3.min(population),
+                    populationMax: d3.max(population)
+                }
+            }
 
             // append line to tooltip svg
             tooltipSvg.append("path")
