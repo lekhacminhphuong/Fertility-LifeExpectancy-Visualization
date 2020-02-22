@@ -104,8 +104,9 @@ d3.csv('./gapminder.csv').then((data) => {
             // Line Graph in Tooltips
             const currentCountry = e['country']
             const filterData = tooltipData.filter(d => d['population'] != "NA" && d['country'] == currentCountry)
+            console.log(filterData)
+            
             const yearLimits = d3.extent(filterData, d => d['year'])
-
             const xScaleLine = d3.scaleLinear()
                 .domain([yearLimits[0], yearLimits[1]])
                 .range([50, 330])
@@ -118,13 +119,13 @@ d3.csv('./gapminder.csv').then((data) => {
             // append line to tooltip svg
             tooltipSvg.append("path")
                 .datum(filterData)
-                .attr("fill", "none")
-                .attr("stroke", "#154360")
-                .attr("stroke-width", 1.5)
                 .attr("d", d3.line()
                     .x(d => xScaleLine(d['year']))
                     .y(d => yScaleLine(d['population']))
                 )
+                .attr("fill", "none")
+                .attr("stroke", "#154360")
+                .attr("stroke-width", 1.5)
 
             // append axes to tooltip svg
             tooltipSvg.append("g")
