@@ -151,6 +151,14 @@ d3.csv('./gapminder.csv').then((data) => {
                 .call(d3.axisLeft(yScaleLine)
                     .tickFormat(tickLabelFormat))
 
+            // append country names into their line-graph tooltips
+            tooltipSvg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", "translate(" + 190 + "," + 140 + ")")
+                .style('font-size', '25px')
+                .attr("fill", "#FFB51F")
+                .text(currentCountry);
+
             // append axes labels to tooltip svg
             tooltipSvg.append("text")
                 .attr("text-anchor", "middle")
@@ -195,8 +203,8 @@ d3.csv('./gapminder.csv').then((data) => {
         .data(bigPopulation)
         .enter()
         .append('text')
-        .attr('x', function (d) { return xScale(+d['fertility']) + 20 })
-        .attr('y', function (d) { return yScale(+d['life_expectancy']) })
+        .attr('x', function (d) { return xScale(+d['fertility']) + 15 })
+        .attr('y', function (d) { return yScale(+d['life_expectancy']) + 5 })
         .text(function (d) { return d['country'] })
         .style('fill', '#FFB51F')
         .style('font-size', '14px')
